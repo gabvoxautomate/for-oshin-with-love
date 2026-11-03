@@ -184,6 +184,7 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
 .back-cover-dedication { margin-top: 14px; color: var(--warm-ivory); font: 400 13px/1.5 "Cormorant Garamond", Georgia, serif; }
 .cover-face--reverse strong { margin-top: 9px; color: var(--paper-white); font: 600 27px "Cormorant Garamond", Georgia, serif; }
 .back-cover-name { margin-top: 4px; color: var(--soft-beige); font: italic 15px "Cormorant Garamond", Georgia, serif; }
+.back-cover-date { margin-top: 13px; color: var(--soft-beige); font: 500 11px/1.4 "DM Sans", sans-serif; letter-spacing: .12em; text-transform: uppercase; }
 .welcome-copy { margin-top: 20px; text-align: center; }
 .welcome-overline { margin: 0 0 14px; color: var(--forest-green); font-size: 10px; }
 .cover-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; }
@@ -322,6 +323,7 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
 .page-cover--back strong { margin-top: 12px; color: var(--paper-white); font: 600 31px "Cormorant Garamond", Georgia, serif; }
 .page-cover--back .back-cover-name { font-size: 18px; }
 .page-cover--back .cover-rule { margin-top: 19px; }
+.page-cover--back .back-cover-date { margin-top: 16px; }
 
 .chapter-page, .letter-page {
   position: relative;

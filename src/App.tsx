@@ -68,6 +68,7 @@ function PageContent({ page, active }: FlipPageProps) {
         <strong>Timileyin</strong>
         <span className="back-cover-name">(Yahwe's D'light)</span>
         <span className="cover-rule" />
+        <span className="back-cover-date">November 10, 2026</span>
       </div>
     );
   }
@@ -343,6 +344,7 @@ function App() {
                 <span className="back-cover-dedication">On behalf of your best friend</span>
                 <strong>Timileyin</strong>
                 <span className="back-cover-name">(Yahwe's D'light)</span>
+                <span className="back-cover-date">November 10, 2026</span>
               </div>
               <div className="cover-pages" />
             </div>
