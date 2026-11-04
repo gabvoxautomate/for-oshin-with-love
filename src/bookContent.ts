@@ -46,7 +46,7 @@ export const chapters: Chapter[] = [
       ],
       [
         "You are one of those people I thank God for.",
-        "And no matter how many years pass, I hope you will always remember that there is someone out here who genuinely cares about you—not because of what you can give, but simply because you are you.",
+        "And no matter how many years pass, I hope you will always remember that there is someone out here who genuinely cares about you, not because of what you can give, but simply because you are you.",
       ],
     ],
   },
@@ -66,7 +66,7 @@ export const chapters: Chapter[] = [
         "And I am proud of you.",
       ],
       [
-        "Not because you have figured everything out—you haven't, and neither have I.",
+        "Not because you have figured everything out; you haven't, and neither have I.",
         "But because you keep becoming.",
         "You keep growing.",
         "You keep learning.",
