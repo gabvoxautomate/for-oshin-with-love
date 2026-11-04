@@ -31,7 +31,15 @@ function Photo({ image, alt, active }: { image: string; alt: string; active: boo
   return <img className={active ? "photo-active" : undefined} src={image} alt={alt} onError={() => setMissing(true)} />;
 }
 
-function TypedParagraph({ text, active, offset }: { text: string; active: boolean; offset: number }) {
+function TypedParagraph({
+  text,
+  active,
+  offset,
+}: {
+  text: string;
+  active: boolean;
+  offset: number;
+}) {
   return (
     <p className={`typed-paragraph${active ? " typed-paragraph--active" : ""}`} aria-label={text}>
       <span className="visually-hidden">{text}</span>
@@ -39,14 +47,84 @@ function TypedParagraph({ text, active, offset }: { text: string; active: boolea
         {Array.from(text).map((character, index) => (
           <span
             className="typed-character"
-            style={{ "--char-index": index + offset } as CSSProperties}
-            key={`${text}-${index}`}
+            style={{ "--char-index": offset + index } as CSSProperties}
+            key={index}
           >
-            {character === " " ? "\u00A0" : character}
+            {character}
           </span>
         ))}
       </span>
     </p>
+  );
+}
+
+function LetterPage({ page, active }: FlipPageProps & { page: Extract<BookPage, { kind: "text" }> }) {
+  const copyRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
+  const [atEnd, setAtEnd] = useState(false);
+  const isFinal = page.chapter.number === 5 && page.paragraphs[0]?.startsWith("With love");
+
+  useEffect(() => {
+    const copy = copyRef.current;
+    if (!copy) return;
+
+    const updateOverflow = () => {
+      const overflow = copy.scrollHeight > copy.clientHeight + 1;
+      setCanScroll((current) => current === overflow ? current : overflow);
+      if (!overflow) setAtEnd(false);
+    };
+    const observer = new ResizeObserver(updateOverflow);
+    observer.observe(copy);
+    Array.from(copy.children).forEach((paragraph) => observer.observe(paragraph));
+    window.addEventListener("resize", updateOverflow);
+    updateOverflow();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateOverflow);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    const copy = copyRef.current;
+    if (!copy) return;
+    setAtEnd(copy.scrollTop + copy.clientHeight >= copy.scrollHeight - 2);
+  };
+
+  const scrollCopy = () => {
+    const copy = copyRef.current;
+    if (!copy) return;
+    copy.scrollTo({
+      top: atEnd ? 0 : copy.scrollHeight,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  };
+
+  let characterOffset = 0;
+  return (
+    <div className={`letter-page${isFinal ? " letter-page--final" : ""}${canScroll ? " letter-page--scrollable" : ""}`}>
+      <span className="eyebrow">{page.chapter.title}</span>
+      <div className="letter-copy" ref={copyRef} onScroll={handleScroll}>
+        {page.paragraphs.map((paragraph, index) => {
+          const offset = characterOffset;
+          characterOffset += Array.from(paragraph).length;
+          return (
+            <TypedParagraph
+              active={active}
+              text={paragraph}
+              offset={offset}
+              key={`${paragraph}-${index}`}
+            />
+          );
+        })}
+      </div>
+      {canScroll && (
+        <button className="scroll-cue" type="button" onClick={scrollCopy}>
+          {atEnd ? "Back to top ↑" : "Scroll to read more ↓"}
+        </button>
+      )}
+      {isFinal && <span className="final-heart" aria-hidden="true">♡</span>}
+    </div>
   );
 }
 
@@ -106,29 +184,7 @@ function PageContent({ page, active }: FlipPageProps) {
     );
   }
 
-  const isFinal = page.chapter.number === 5 && page.paragraphs[0].startsWith("With love");
-  let characterOffset = 0;
-
-  return (
-    <div className={`letter-page${isFinal ? " letter-page--final" : ""}`}>
-      <span className="eyebrow">{page.chapter.title}</span>
-      <div className="letter-copy">
-        {page.paragraphs.map((paragraph, index) => {
-          const offset = characterOffset;
-          characterOffset += Array.from(paragraph).length + 6;
-          return (
-            <TypedParagraph
-              active={active}
-              text={paragraph}
-              offset={offset}
-              key={`${paragraph}-${index}`}
-            />
-          );
-        })}
-      </div>
-      {isFinal && <span className="final-heart" aria-hidden="true">♡</span>}
-    </div>
-  );
+  return <LetterPage page={page} active={active} />;
 }
 
 const FlipPage = forwardRef<HTMLDivElement, FlipPageProps>(function FlipPage({ page, active }, ref) {
