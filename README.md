@@ -1,6 +1,6 @@
 # For Oshin, With Love
 
-A mobile-first birthday keepsake book built with React, TypeScript, Vite, and `react-pageflip`. The reader includes 3D page turns, touch and mouse flipping, a rotatable cover, chapter progress, and animated letter text.
+A mobile-first birthday keepsake book built with React, TypeScript, Vite, and `react-pageflip`. The reader includes 3D page turns, touch and mouse flipping, an automatically turning cover, chapter progress, ordered letter reveals, and mobile scrolling for longer pages. Its closing page features a gold-framed portrait with a soft animated shimmer.
 
 ## Run locally
 
@@ -26,6 +26,7 @@ Additional supplied photographs appear in the closing pages:
 - `oshin-memory-1.jpg` — Oshin in a black outfit and tan cap
 - `oshin-friendship.jpg` — Oshin and Timileyin together outdoors
 - `oshin-memory-2.jpg` — Oshin in a red dress
+- `oshin-chapter-1.png` — portrait featured on the final keepsake page
 
 The birthday soundtrack is `public/audio/birthday-music.mp3`. It starts after the reader opens the book.
 

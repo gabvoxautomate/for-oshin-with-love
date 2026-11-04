@@ -101,6 +101,13 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
 }
 
 .cover-book--back { transform: rotateY(168deg) rotateX(2deg); }
+.cover-book--auto-rotate {
+  animation: cover-idle-turn 8s ease-in-out infinite;
+}
+@keyframes cover-idle-turn {
+  0%, 100% { transform: rotateX(2deg) rotateY(-18deg); }
+  50% { transform: rotateX(2deg) rotateY(18deg); }
+}
 .cover-book--opening { animation: open-cover .65s ease-in forwards; }
 @keyframes open-cover {
   45% { transform: rotateY(-12deg) rotateX(2deg) translateZ(30px); }
@@ -336,6 +343,120 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
   padding: clamp(19px, 5vw, 32px) clamp(20px, 6vw, 36px);
 }
 .chapter-page { background: var(--warm-ivory); }
+.portrait-page {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: clamp(8px, 2vh, 15px);
+  overflow: hidden;
+  padding: clamp(15px, 5vw, 30px);
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(255,255,255,.92), transparent 66%),
+    linear-gradient(145deg, #f8f0dd, #e6d5ae 52%, #f5ecd8);
+  text-align: center;
+}
+.portrait-page .eyebrow { color: #94733d; }
+.portrait-page h2 {
+  z-index: 1;
+  margin: 0;
+  color: var(--forest-green);
+  font: 500 clamp(23px, 6vw, 34px)/1 "Cormorant Garamond", Georgia, serif;
+  text-wrap: balance;
+}
+.portrait-frame {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  width: min(78%, 310px);
+  height: min(60%, 390px);
+  min-height: 0;
+  flex: 0 1 60%;
+  place-items: center;
+  padding: 8px;
+  overflow: hidden;
+  border: 2px solid #c8a75e;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #fff4cf, #b88d3e 25%, #f6e5b3 52%, #aa8037 76%, #f7e9be);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.7), 0 0 0 5px rgba(175,137,62,.42), 0 10px 28px rgba(93,67,28,.2);
+  animation: portrait-frame-glow 4.5s ease-in-out infinite;
+}
+.portrait-frame::before {
+  position: absolute;
+  z-index: 1;
+  inset: -35% -70%;
+  background: linear-gradient(110deg, transparent 43%, rgba(255,255,255,.38) 50%, transparent 57%);
+  content: "";
+  pointer-events: none;
+  animation: portrait-frame-shine 7s ease-in-out infinite;
+}
+.portrait-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center 28%;
+  background: var(--paper-white);
+}
+.portrait-frame .photo-missing { height: 100%; min-height: 0; }
+.portrait-frame-corner {
+  position: absolute;
+  z-index: 2;
+  width: 23px;
+  height: 23px;
+  border-color: #fff1bd;
+  border-style: solid;
+  filter: drop-shadow(0 1px 2px rgba(97,68,22,.55));
+}
+.portrait-frame-corner--top { inset: 4px auto auto 4px; border-width: 2px 0 0 2px; }
+.portrait-frame-corner--bottom { inset: auto 4px 4px auto; border-width: 0 2px 2px 0; }
+.portrait-glitter { position: absolute; z-index: 3; inset: -2px; overflow: hidden; pointer-events: none; }
+.portrait-glitter span {
+  position: absolute;
+  left: var(--sparkle-x);
+  top: var(--sparkle-y);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fff7d9;
+  box-shadow: 0 0 5px 2px rgba(255,232,162,.85);
+  animation: portrait-glitter 2.8s ease-in-out var(--sparkle-delay) infinite;
+}
+.portrait-dedication {
+  z-index: 1;
+  max-width: 90%;
+  margin: 0;
+  color: #765d34;
+  font: italic 400 clamp(14px, 3.8vw, 19px)/1.3 "Cormorant Garamond", Georgia, serif;
+  text-wrap: balance;
+}
+.portrait-heart {
+  position: absolute;
+  right: 15px;
+  bottom: 10px;
+  color: #ae884b;
+  font: 23px "Cormorant Garamond", Georgia, serif;
+  animation: heart-glow 2.8s ease-in-out infinite;
+}
+@keyframes portrait-frame-glow {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255,255,255,.7), 0 0 0 5px rgba(175,137,62,.42), 0 10px 28px rgba(93,67,28,.2); }
+  50% { box-shadow: 0 0 0 3px rgba(255,255,255,.85), 0 0 0 5px rgba(214,176,91,.62), 0 12px 34px rgba(124,87,29,.28); }
+}
+@keyframes portrait-frame-shine {
+  0%, 35% { transform: translateX(-45%); opacity: 0; }
+  48% { opacity: .8; }
+  65%, 100% { transform: translateX(45%); opacity: 0; }
+}
+@keyframes portrait-glitter {
+  0%, 100% { opacity: .15; transform: scale(.65); }
+  50% { opacity: .95; transform: scale(1.3); }
+}
 .eyebrow {
   display: block;
   flex: 0 0 auto;
@@ -418,13 +539,14 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
   min-height: 0;
   flex: 1;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-color: var(--antique-gold) transparent;
   scrollbar-width: thin;
 }
+.typed-paragraph:only-child { margin-block: auto; }
 .typed-paragraph {
   flex: 0 0 auto;
   margin: 0 0 clamp(10px, 2.1vh, 17px);
@@ -541,7 +663,7 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
   .chapter-page { padding: 36px; }
   .photo-frame { width: min(100%, 330px); }
   .typed-paragraph { font-size: clamp(19px, 2.4vw, 24px); line-height: 1.38; }
-  .letter-page { padding: 48px; }
+  .letter-page { padding: clamp(24px, 5vw, 42px); }
 }
 
 @media (max-height: 650px) {
@@ -569,6 +691,8 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
   .page-cover { inset: 7px; padding: 16px 12px; }
   .page-cover h2 { font-size: clamp(29px, 8vw, 38px); }
   .page-cover p { font-size: 15px; }
+  .portrait-page { gap: 10px; padding: 14px; }
+  .portrait-frame { width: min(78%, 250px); height: min(59%, 300px); }
 }
 
 @media (max-width: 360px) {
@@ -577,6 +701,7 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
   .typed-paragraph { font-size: 15px; line-height: 1.3; }
   .letter-page--final .typed-paragraph { font-size: 16px; }
   .chapter-page { padding-right: 17px; padding-left: 17px; }
+  .portrait-frame { width: min(82%, 220px); }
   .chapter-page h2 { font-size: 25px; }
   .reader-footer { width: 100%; }
   .nav-button { min-width: 82px; gap: 5px; font-size: 13px; }
@@ -605,4 +730,5 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
     transition-duration: .01ms !important;
   }
   .photo-frame img { animation: none; }
+  .cover-book--auto-rotate, .portrait-frame, .portrait-frame::before, .portrait-glitter span, .portrait-heart { animation: none; }
 }

@@ -160,6 +160,7 @@ export type BookPage =
   | { kind: "chapter"; chapter: Chapter }
   | { kind: "text"; chapter: Chapter; paragraphs: string[] }
   | { kind: "memory"; title: string; image: string; alt: string }
+  | { kind: "portrait"; title: string; image: string; alt: string }
   | { kind: "back-cover" };
 
 export const bookPages: BookPage[] = [
@@ -189,6 +190,12 @@ export const bookPages: BookPage[] = [
     title: "A memory in red",
     image: "/images/oshin-memory-2.jpg",
     alt: "Oshin smiling in a red dress outdoors.",
+  },
+  {
+    kind: "portrait",
+    title: "A portrait to treasure",
+    image: "/images/oshin-chapter-1.png",
+    alt: "Oshin smiling in a coral gele and pale-blue embroidered lace dress.",
   },
   { kind: "back-cover" },
 ];

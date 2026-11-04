@@ -169,6 +169,34 @@ function PageContent({ page, active }: FlipPageProps) {
     );
   }
 
+  if (page.kind === "portrait") {
+    return (
+      <div className="portrait-page">
+        <span className="eyebrow">With love, always</span>
+        <h2>{page.title}</h2>
+        <div className="portrait-frame">
+          <div className="portrait-glitter" aria-hidden="true">
+            {Array.from({ length: 14 }, (_, index) => (
+              <span
+                key={index}
+                style={{
+                  "--sparkle-x": `${(index * 47 + 13) % 100}%`,
+                  "--sparkle-y": `${(index * 61 + 19) % 100}%`,
+                  "--sparkle-delay": `${index * -0.37}s`,
+                } as CSSProperties}
+              />
+            ))}
+          </div>
+          <Photo image={page.image} alt={page.alt} active={active} />
+          <span className="portrait-frame-corner portrait-frame-corner--top" />
+          <span className="portrait-frame-corner portrait-frame-corner--bottom" />
+        </div>
+        <p className="portrait-dedication">Keep becoming. Keep shining. You are cherished.</p>
+        <span className="portrait-heart" aria-hidden="true">♡</span>
+      </div>
+    );
+  }
+
   if (page.kind === "chapter") {
     return (
       <div className="chapter-page">
@@ -209,6 +237,7 @@ function App() {
   const [opened, setOpened] = useState(false);
   const [opening, setOpening] = useState(false);
   const [coverTurned, setCoverTurned] = useState(false);
+  const [coverAutoRotate, setCoverAutoRotate] = useState(true);
   const [pageIndex, setPageIndex] = useState(0);
   const [closing, setClosing] = useState(false);
   const [bookAngle, setBookAngle] = useState(0);
@@ -305,6 +334,7 @@ function App() {
       bookRef.current?.pageFlip()?.turnToPage(0);
       setPageIndex(0);
       setOpened(false);
+      setCoverAutoRotate(true);
       setClosing(false);
     }, 550);
   };
@@ -338,6 +368,7 @@ function App() {
   };
 
   const handleCoverPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    setCoverAutoRotate(false);
     coverPointerStart.current = { x: event.clientX, y: event.clientY, rotation: coverRotation };
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -358,6 +389,7 @@ function App() {
   };
 
   const turnCover = () => {
+    setCoverAutoRotate(false);
     const showBack = Math.cos(coverRotation.y * Math.PI / 180) >= 0;
     setCoverTurned(showBack);
     setCoverRotation((rotation) => ({ ...rotation, y: showBack ? 168 : -12 }));
@@ -388,8 +420,8 @@ function App() {
             onPointerCancel={handleCoverPointerEnd}
           >
             <div
-              className={`cover-book${coverTurned ? " cover-book--back" : ""}${opening ? " cover-book--opening" : ""}`}
-              style={{ transform: `rotateX(${coverRotation.x}deg) rotateY(${coverRotation.y}deg)` }}
+              className={`cover-book${coverTurned ? " cover-book--back" : ""}${opening ? " cover-book--opening" : ""}${coverAutoRotate ? " cover-book--auto-rotate" : ""}`}
+              style={coverAutoRotate ? undefined : { transform: `rotateX(${coverRotation.x}deg) rotateY(${coverRotation.y}deg)` }}
             >
               <div className="cover-spine" />
               <div className="cover-face cover-face--front">
