@@ -31,6 +31,25 @@ function Photo({ image, alt, active }: { image: string; alt: string; active: boo
   return <img className={active ? "photo-active" : undefined} src={image} alt={alt} onError={() => setMissing(true)} />;
 }
 
+function TypedParagraph({ text, active, offset }: { text: string; active: boolean; offset: number }) {
+  return (
+    <p className={`typed-paragraph${active ? " typed-paragraph--active" : ""}`} aria-label={text}>
+      <span className="visually-hidden">{text}</span>
+      <span aria-hidden="true" className="typed-visual">
+        {Array.from(text).map((character, index) => (
+          <span
+            className="typed-character"
+            style={{ "--char-index": index + offset } as CSSProperties}
+            key={`${text}-${index}`}
+          >
+            {character === " " ? "\u00A0" : character}
+          </span>
+        ))}
+      </span>
+    </p>
+  );
+}
+
 function PageContent({ page, active }: FlipPageProps) {
   if (page.kind === "front-cover") {
     return (
@@ -88,13 +107,24 @@ function PageContent({ page, active }: FlipPageProps) {
   }
 
   const isFinal = page.chapter.number === 5 && page.paragraphs[0].startsWith("With love");
+  let characterOffset = 0;
+
   return (
     <div className={`letter-page${isFinal ? " letter-page--final" : ""}`}>
       <span className="eyebrow">{page.chapter.title}</span>
       <div className="letter-copy">
-        {page.paragraphs.map((paragraph) => (
-          <p className="typed-paragraph" key={paragraph}>{paragraph}</p>
-        ))}
+        {page.paragraphs.map((paragraph, index) => {
+          const offset = characterOffset;
+          characterOffset += Array.from(paragraph).length + 6;
+          return (
+            <TypedParagraph
+              active={active}
+              text={paragraph}
+              offset={offset}
+              key={`${paragraph}-${index}`}
+            />
+          );
+        })}
       </div>
       {isFinal && <span className="final-heart" aria-hidden="true">♡</span>}
     </div>
