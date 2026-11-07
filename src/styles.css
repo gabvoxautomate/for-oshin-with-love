@@ -77,8 +77,8 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
 
 .cover-scene {
   display: grid;
-  width: min(70vw, 280px);
-  height: clamp(170px, 44dvh, 330px);
+  width: min(62vw, 250px);
+  height: clamp(150px, 36dvh, 270px);
   min-height: 0;
   place-items: center;
   perspective: 1100px;
@@ -192,8 +192,8 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
 .cover-face--reverse strong { margin-top: 9px; color: var(--paper-white); font: 600 27px "Cormorant Garamond", Georgia, serif; }
 .back-cover-name { margin-top: 4px; color: var(--soft-beige); font: italic 15px "Cormorant Garamond", Georgia, serif; }
 .back-cover-date { margin-top: 13px; color: var(--soft-beige); font: 500 11px/1.4 "DM Sans", sans-serif; letter-spacing: .12em; text-transform: uppercase; }
-.welcome-copy { margin-top: 20px; text-align: center; }
-.welcome-overline { margin: 0 0 14px; color: var(--forest-green); font-size: 10px; }
+.welcome-copy { margin-top: 12px; text-align: center; }
+.welcome-overline { margin: 0 0 8px; color: var(--forest-green); font-size: 10px; }
 .cover-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; }
 .text-button, .icon-button, .nav-button, .read-again {
   border: 0;
@@ -216,7 +216,7 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
 .open-button:hover { transform: translateY(-2px); background: rgba(23,61,50,.9); }
 .open-button:disabled { opacity: .6; cursor: wait; }
 .rotate-cover-button { min-height: 44px; padding: 9px; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
-.welcome-note { margin: 13px 0 0; color: var(--forest-green); font-size: 12px; letter-spacing: .04em; }
+.welcome-note { margin: 8px 0 0; color: var(--forest-green); font-size: 12px; letter-spacing: .04em; }
 
 .reader {
   display: flex;
@@ -681,7 +681,7 @@ button:focus-visible { outline: 2px solid var(--antique-gold); outline-offset: 3
 
 @media (max-width: 600px) {
   .welcome { padding-right: 14px; padding-left: 14px; }
-  .cover-scene { width: min(70vw, 270px); }
+  .cover-scene { width: min(62vw, 240px); }
   .reader { padding-right: 10px; padding-left: 10px; }
   .book-area { width: 100%; }
   .reader-footer { min-height: 45px; }
